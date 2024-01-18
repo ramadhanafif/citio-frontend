@@ -1,48 +1,42 @@
 <script>
-	import '../app.scss';
+	import '../app.pcss';
+	import dayjs from 'dayjs';
 </script>
 
 <svelte:head>
 	<title>CitiO - Class Tahsin Online</title>
 </svelte:head>
 
-<nav>
-	<ul>
-		<li id="brand-container">
-			<img src="/citio-square-bg.png" id="logo" alt="CitiO Logo" /><strong>CitiO</strong>
-		</li>
-	</ul>
-	<ul>
-		<li><a href="/create" role="button">Jadwal Baru</a></li>
-	</ul>
-</nav>
+<!--  https://daisyui.com/components/navbar/-->
+<div class="flex min-h-screen flex-col">
+	<header>
+		<div class="navbar bg-base-100 border-b-base-300 border-b shadow-lg">
+			<div class="navbar-start">
+				<img src="/citio-square-bg.png" alt="Logo" class="rounded-badge h-10" />
+				<a class="btn btn-ghost text-xl" href="/"> CitiO</a>
+			</div>
+			<div class="navbar-end">
+				<a class="btn" href="/login"> Login</a>
+				<!-- <a class="btn" href="/create">Jadwal Baru</a> -->
+			</div>
+		</div>
+	</header>
 
-<slot />
+	<div class="flex flex-1 flex-col px-6 pb-16 pt-4 sm:flex-row">
+		<main class="flex-1">
+			<slot />
+		</main>
+		<!-- <nav class="order-first sm:w-32 bg-purple-200">Sidebar</nav> -->
+		<!-- <aside class="sm:w-32 bg-yellow-100">Right Sidebar</aside> -->
+	</div>
 
-<style>
-	nav {
-		padding: 0 1rem;
-	}
-	strong {
-		color: hsl(207, 29.41%, 13.33%);
-		font-size: 2rem;
-	}
-
-	#brand-container {
-		height: 150px;
-		display: flex;
-		align-items: center;
-	}
-	#logo {
-		border-radius: 100%;
-		height: 100%;
-	}
-
-	:global(body) {
-		background: lightblue;
-		/* background: url(/mosque.jpg) no-repeat fixed center; */
-		/* backdrop-filter: blur(100px); */
-		height: 500px;
-		padding: 0;
-	}
-</style>
+	<footer>
+		<p>
+			© {dayjs().year()} CitiO
+		</p>
+		<!-- <p>
+		Created and designed by <a href="https://github.com/ramadhanafif">CitiO Team</a>
+	</p> -->
+		<small><a href="https://github.com/ramadhanafif/citio-frontend">Soruce Code</a></small>
+	</footer>
+</div>
