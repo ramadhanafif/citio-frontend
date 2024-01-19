@@ -10,6 +10,8 @@
 
 	import whatsappIcon from './whatsapp-logo.svg';
 	import Alert from '$lib/components/Alert.svelte';
+	import { CreateReminderMessage } from '$lib/message/utils.js';
+	import type { ClassSimpleResponse } from '$lib/types/pocketbase-types.js';
 
 	export let data: PageData;
 	dayjs.locale('id');
@@ -20,8 +22,9 @@
 		return dayjs.utc(input).tz(PUBLIC_TIMEZONE).locale('id').format('H:mm dddd DD MMMM');
 	}
 
-	function msgGenerate() {
-		navigator.clipboard.writeText('halo bambang');
+	function msgGenerate(dayData: ClassSimpleResponse[]) {
+		const message = CreateReminderMessage(dayData);
+		navigator.clipboard.writeText(message);
 		copyAlert = true;
 		setTimeout(() => {
 			copyAlert = false;
@@ -42,15 +45,15 @@
 		<!--  Date Separation -->
 		<div class="prose-xl my-4 flex items-center justify-between">
 			<h2>{dayjs(date).locale('id').format('dddd DD MMMM')}</h2>
-			<button class="btn btn-primary" on:click={msgGenerate}
+			<button class="btn btn-primary" on:click={() => msgGenerate(items)}
 				>Buat dan Copy Pesan WA
 				<img src={whatsappIcon} alt="wa logo" class="m-0 h-6 w-6" /></button
 			>
 		</div>
 		<!-- Card separation -->
-		<div class="border-accent-content flex flex-wrap gap-4 border-b px-2 shadow-lg">
+		<div class="flex flex-wrap gap-4 border-b border-accent-content px-2 shadow-lg">
 			{#each items as item}
-				<article class="card bg-base-100 flex-none basis-96 border px-4 pb-4 pt-2">
+				<article class="card flex-none basis-96 border bg-base-100 px-4 pb-4 pt-2">
 					<h3 class="card-title">{item.materi}</h3>
 					<p><strong>Pemateri</strong>: {item.pemateri}</p>
 					<p><strong>Pendamping</strong>: {item.pendamping}</p>
@@ -63,7 +66,7 @@
 	{/each}
 
 	{#if copyAlert}
-		<div in:fly={{x:100, delay:1}} class="fixed bottom-3 right-3">
+		<div in:fly={{ x: 100, delay: 1 }} class="fixed bottom-3 right-3">
 			<Alert text="Copy berhasil!" />
 		</div>
 	{/if}
